@@ -1,5 +1,5 @@
 //
-//  BKChooseNonprofitVC.swift
+//  BKChooseVC.swift
 //  beam-ios-sdk
 //
 //  Created by ALEXANDRA SALVATORE on 7/15/19.
@@ -8,19 +8,21 @@
 
 import UIKit
 
-public protocol BKChooseNonprofitViewDelegate: class {
-    func didDismiss()
+public protocol BKChooseViewDelegate: class {
+    func didConfirmBeamFavorite()
+    func didOpenBeamChooseVC()
+    var baseViewController: UIViewController { get set }
 }
 
-public class BKChooseNonprofitVC: UIViewController {
+public class BKChooseVC: UIViewController {
 
     let transaction: BKTransaction
-    var flow: BKChooseNonprofitFlow {
+    var flow: BKChooseFlow {
         return BeamKitContext.shared.chooseFlow
     }
 
     let header: BKVisitHeaderView
-    public weak var delegate: BKChooseNonprofitViewDelegate?
+    public weak var delegate: BKChooseViewDelegate?
 
     let first: NonprofitView = .init(frame: .zero)
     let second: NonprofitView = .init(frame: .zero)
@@ -34,9 +36,9 @@ public class BKChooseNonprofitVC: UIViewController {
         super.init(nibName: nil, bundle: nil)
     }
     
-    public class func new() -> BKChooseNonprofitVC? {
+    public class func new() -> BKChooseVC? {
         guard let trans = BeamKitContext.shared.chooseFlow.context.currentTransaction else { return nil }
-        return BKChooseNonprofitVC.init(with: trans)
+        return BKChooseVC.init(with: trans)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -132,7 +134,7 @@ public class BKChooseNonprofitVC: UIViewController {
     }
 }
 
-extension BKChooseNonprofitVC {
+extension BKChooseVC {
     
     func addTargets() {
          header.backButton.addTarget(self,
@@ -150,7 +152,7 @@ extension BKChooseNonprofitVC {
     }
 }
 
-extension BKChooseNonprofitVC: NonprofitViewDelegate {
+extension BKChooseVC: NonprofitViewDelegate {
     
     func didSelect(_ nonprofit: BKNonprofit?) {
         guard let nonprofit = nonprofit else {
@@ -163,7 +165,7 @@ extension BKChooseNonprofitVC: NonprofitViewDelegate {
         flow.redeem(transaction,
                     nonprofit: nonprofit,
                     from: self) {
-                        self.delegate?.didDismiss()
+                        self.delegate?.didConfirmBeamFavorite()
         }
     }
 }

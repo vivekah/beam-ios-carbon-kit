@@ -25,7 +25,7 @@ class BeamKitContext {
     lazy var userAPI: BeamKitUserAPI = .init()
     lazy var nonprofits: [BKNonprofit] = .init() // todo figure ordering
     lazy var chooseContext: BKChooseNonprofitContext = .init()
-    lazy var chooseFlow: BKChooseNonprofitFlow = .init()
+    lazy var chooseFlow: BKChooseFlow = .init()
     lazy var impactContext: BKImpactContext = .init()
     let bundle = Bundle(for: BKManager.self)
 

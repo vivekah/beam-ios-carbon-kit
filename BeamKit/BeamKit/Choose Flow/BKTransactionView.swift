@@ -24,7 +24,7 @@ public enum BKBackgroundType {
 public class BKTransactionView: UIView {
     public weak var delegate: BKTransactionViewDelegate?
     
-    var flow: BKChooseNonprofitFlow {
+    var flow: BKChooseFlow {
         return BeamKitContext.shared.chooseFlow
     }
     

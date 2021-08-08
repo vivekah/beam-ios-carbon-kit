@@ -38,11 +38,12 @@ public class BKManager: NSObject {
 extension BKManager {
     public func beginTransaction(at storeID: String,
                                  spend: CGFloat,
+                                 carbonOffset: CGFloat,
                                  forceMatchView: Bool = false,
                                  email: String? = nil,
-                                 _ completion: ((BKChooseNonprofitViewType?, BeamError) -> Void)? = nil) {
+                                 _ completion: ((BKChooseViewType?, BeamError) -> Void)? = nil) {
         BeamKitContext.shared.chooseContext.beginTransaction(at: storeID,
-                                                             for: spend,
+                                                             for: carbonOffset, //TODO Update backend API
                                                              forceMatchView: forceMatchView,
                                                              email: email,
                                                              completion)

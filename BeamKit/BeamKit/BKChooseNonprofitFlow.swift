@@ -9,24 +9,24 @@
 import Foundation
 import UIKit
 
-public enum BKChooseNonprofitViewType {
+public enum BKChooseViewType {
     case fullScreen
     case widget
 }
 
-class BKChooseNonprofitFlow {
+class BKChooseFlow {
     
     var context: BKChooseNonprofitContext {
         return BeamKitContext.shared.chooseContext
     }
-    var chooseVC: BKChooseNonprofitVC?
+    var chooseVC: BKChooseVC?
     
     func showChooseNonprofitVC(from presentingVC: UIViewController) {
         guard let trans = context.currentTransaction else {
             //todo something here
             return
         }
-        chooseVC = BKChooseNonprofitVC(with: trans)
+        chooseVC = BKChooseVC(with: trans)
         guard let vc = chooseVC else { return } // todo add error
        // vc.modalPresentationStyle = .fullScreen
         presentingVC.present(vc, animated: true)

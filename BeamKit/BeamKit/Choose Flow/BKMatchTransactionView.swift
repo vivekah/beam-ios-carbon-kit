@@ -13,7 +13,7 @@ protocol BKMatchTransactionViewDelegate: class {
 }
 
 class BKMatchTransactionView: UIView {
-    weak var flow: BKChooseNonprofitFlow?
+    weak var flow: BKChooseFlow?
     weak var delegate: BKMatchTransactionViewDelegate?
     
     var _isMatched: Bool = false

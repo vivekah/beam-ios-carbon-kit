@@ -15,7 +15,7 @@ class BKChooseNonprofitContext: NSObject {
                           for spend: CGFloat,
                           forceMatchView: Bool = false,
                           email: String? = nil,
-                                _ completion: ((BKChooseNonprofitViewType?, BeamError) -> Void)? = nil) {
+                                _ completion: ((BKChooseViewType?, BeamError) -> Void)? = nil) {
         if let email = email {
             BeamKitContext.shared.registerUser(id: nil, info: ["BeamUserEmailKey": email]) {_,_ in
                 self._beginTransaction(at: storeID, for: spend, forceMatchView: forceMatchView, completion)
@@ -27,7 +27,7 @@ class BKChooseNonprofitContext: NSObject {
     func _beginTransaction(at storeID: String,
                           for spend: CGFloat,
                           forceMatchView: Bool = false,
-                          _ completion: ((BKChooseNonprofitViewType?, BeamError) -> Void)? = nil) {
+                          _ completion: ((BKChooseViewType?, BeamError) -> Void)? = nil) {
         guard let _ = BeamKitContext.shared.getUserID() else {
             completion?(nil, .invalidUser)
             return
@@ -46,7 +46,7 @@ class BKChooseNonprofitContext: NSObject {
                 transaction.canMatch  = true
             }
             self.currentTransaction = transaction
-            var viewType: BKChooseNonprofitViewType = .fullScreen
+            var viewType: BKChooseViewType = .fullScreen
             if let _ = transaction.storeNon.lastNonprofit {
                 viewType = .widget
             }
