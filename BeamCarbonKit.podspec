@@ -16,7 +16,7 @@ Pod::Spec.new do |s|
   #
 
   s.name         = "BeamCarbonKit"
-  s.version      = "1.2.8"
+  s.version      = "1.2.9"
   s.summary      = "BeamCarbonKit allows companies to integrate the Beam experience into their app."
 
   # This description is used to generate tags and improve search results.
@@ -59,7 +59,7 @@ Pod::Spec.new do |s|
   #
 
  # s.platform     = :ios
-  s.platform     = :ios, "8.0"
+  s.platform     = :ios, "10.0"
   s.swift_version = "5.0"
 
   # ――― Source Location ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
@@ -71,7 +71,7 @@ Pod::Spec.new do |s|
   s.source       = { :git => "https://github.com/vivekah/beam-ios-carbon-sdk.git", :tag => "#{s.version}" }
  # s.source = { :http => "https://ios-pod.s3-us-west-2.amazonaws.com/BeamKit.zip"}
  # s.ios.vendored_frameworks = 'BeamKit.framework'
-  s.ios.deployment_target = '8.0'
+  s.ios.deployment_target = '10.0'
   #s.framework = 'BeamKit.framework'
 
   # ――― Source Code ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
@@ -110,7 +110,7 @@ Pod::Spec.new do |s|
   #
 
   s.framework = "UIKit"
-  s.dependency 'Alamofire'
+ # s.dependency 'Alamofire'
 
 
   # ――― Project Settings ――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #

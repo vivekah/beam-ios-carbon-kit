@@ -61,6 +61,8 @@ class BKImpactCell: UITableViewCell {
         addSubview(descriptionLabel.usingConstraints())
         addSubview(progressBar.usingConstraints())
         addSubview(separatorLine.usingConstraints())
+        progressBar.isHidden = true
+        percentageView.isHidden = true
         backgroundColor = .white
         titleImageView.clipsToBounds = true
         setupConstraints()
@@ -92,7 +94,7 @@ class BKImpactCell: UITableViewCell {
                                  "H:|-30-[bar]-30-|",
                                  "H:|-30-[sep]-30-|",
                                  "H:|-30-[cause]-30-|",
-                                 "H:|-30-[perc]-8-[desc]-30-|",
+                                 "H:|-30-[desc]-30-|",
                                  "V:|[title(180)]-14-[perc]-5-[bar(8)]-16-[sep(1)]-16-|",
                                  "V:[title]->=3-[desc]-[bar]",
                                  "V:|-8-[cause]"]
@@ -108,7 +110,7 @@ class BKImpactCell: UITableViewCell {
     
     func configure(with impact: BKNonprofit) {
         let desc = impact.impactDescription
-        descriptionLabel.text = "of the way to funding \(desc)"
+        descriptionLabel.text = "Your carbon was offset by \(desc)"
         titleImageView.title = impact.name
         setupProgress(with: impact)
         causeLabel.text = impact.cause?.uppercased()

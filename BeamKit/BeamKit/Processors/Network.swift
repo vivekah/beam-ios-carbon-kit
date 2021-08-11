@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import Alamofire
+//import Alamofire
 
 typealias JSON = [String: Any]
 typealias ErrorMessage = String
@@ -52,7 +52,6 @@ typealias NetworkCompletionHandler = (Data?, URLResponse?, Error?) -> Void
 
 class Network {
     static let shared: Network = .init()
-    private let reachabilityManager: NetworkReachabilityManager? = NetworkReachabilityManager()
     var environment: BKEnvironment = .staging
     
     var isStaging: Bool {
@@ -72,12 +71,12 @@ class Network {
         return statusCode >= 200 && statusCode < 300
     }
     
-    var isReachable: Bool {
-        if let manager = reachabilityManager {
-            return manager.isReachable
-        }
-        return false
-    }
+//    var isReachable: Bool {
+//        if let manager = reachabilityManager {
+//            return manager.isReachable
+//        }
+//        return false
+//    }
     
     var headers: [String: String] {
         
@@ -150,10 +149,10 @@ extension Network {
         let completionHandler: NetworkCompletionHandler = getHandler(successHandler: successHandler,
                                                                      errorHandler: errorHandler)
         
-        guard isReachable else {
-            errorHandler(.noNetwork)
-            return nil
-        }
+//        guard isReachable else {
+//            errorHandler(.noNetwork)
+//            return nil
+//        }
         
         guard let url = URL(string: baseURL + urlPath) else {
             errorHandler(.invalidURL)

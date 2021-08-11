@@ -2,10 +2,10 @@ def networking
    pod 'Alamofire'
 end
 
-target 'BeamCarbonKit' do
+target 'BeamKit' do
   # Comment the next line if you're not using Swift and don't want to use dynamic frameworks
   use_frameworks!
 
   # Pods for Beam
-  networking
+  #networking
 end

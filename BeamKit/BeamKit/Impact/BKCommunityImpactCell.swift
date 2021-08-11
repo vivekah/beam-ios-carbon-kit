@@ -157,7 +157,8 @@ class BKCommunityImpactCell: UITableViewCell {
     
     func configure(with impact: BKNonprofit) {
         titleLabel.text = impact.name
-        goalLabel.text = impact.impactDescription
+        let desc = impact.impactDescription
+        goalLabel.text = "Offset by \(desc)"
         causeLabel.text = impact.cause?.uppercased()
         
         setupProgress(with: impact)

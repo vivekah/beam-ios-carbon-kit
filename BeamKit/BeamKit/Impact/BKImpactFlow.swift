@@ -9,7 +9,7 @@
 import UIKit
 
 
-class BKImpactFlow {
+public class BKImpactFlow {
     
     var context: BKImpactContext {
         return BeamKitContext.shared.impactContext
@@ -22,7 +22,7 @@ class BKImpactFlow {
     
     lazy var currentView: UIViewController = self.impactVC
     
-    func showFullImpact(from viewController: UIViewController) {
+    public func showFullImpact(from viewController: UIViewController) {
         context.loadCommunityImpact()
         let fullImpact = BKFullImpactVC(context: context, flow: self)
         viewController.present(fullImpact,
@@ -39,6 +39,10 @@ class BKImpactFlow {
     
     func didDismissFullImpact() {
         currentView = impactVC
+    }
+
+    public init() {
+
     }
 }
 

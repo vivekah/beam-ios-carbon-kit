@@ -11,7 +11,7 @@ import UIKit
 public protocol BKChooseViewDelegate: class {
     func didConfirmBeamFavorite()
     func didOpenBeamChooseVC()
-    var baseViewController: UIViewController { get set }
+    var baseViewController: UIViewController { get }
 }
 
 public class BKChooseVC: UIViewController {
@@ -29,6 +29,7 @@ public class BKChooseVC: UIViewController {
     let third: NonprofitView = .init(frame: .zero)
     let fourth: NonprofitView = .init(frame: .zero)
     var showFourth: Bool = true
+
     
     init(with transaction: BKTransaction) {
         self.transaction = transaction
@@ -81,13 +82,15 @@ public class BKChooseVC: UIViewController {
                             "first": first,
                             "second": second,
                             "third": third,
-                            "fourth": fourth]
+                            "fourth": fourth,
+        ]
         
         var formats: [String] = ["H:|[header]|",
-                                 "H:|[first]|",
-                                 "H:|[second]|",
-                                 "H:|[third]|",
-                                 "H:|[fourth]|"]
+                                 "H:|-10-[first]-10-|",
+                                 "H:|-10-[second]-10-|",
+                                 "H:|-10-[third]-10-|",
+                                 "H:|-10-[fourth]-10-|"
+        ]
         var insets: CGFloat = 0
         
         if #available(iOS 11.0, *) {
@@ -98,7 +101,7 @@ public class BKChooseVC: UIViewController {
         if showFourth {
             formats.append("V:|-top-[header][first]-2-[second]-2-[third]-2-[fourth]|")
         } else {
-            formats.append("V:|-top-[header][first]-2-[second]-2-[third]|")
+            formats.append("V:|-top-[header][first]-10-[second]-10-[third]|")
         }
         
         var constraints: Constraints = NSLayoutConstraint.constraints(withFormats: formats,
@@ -228,7 +231,7 @@ class BKVisitHeaderView: UIView {
     }
     
     func setup() {
-        let widthOfChain = UIScreen.main.applicationFrame.width / 2 - 35
+        let widthOfChain = UIScreen.main.bounds.width / 2 - 35
         let heightOfChain = UIView.beamDefaultNavBarHeight - 7
         if #available(iOS 9.0, *) {
            heightConstraint = chainLogoImageView.heightAnchor.constraint(equalToConstant: heightOfChain)
@@ -367,8 +370,8 @@ class BKVisitHeaderView: UIView {
                             "logo": logoView,
                             "nav": navBarView]
         
-        let beamLogoSize = beamLogoImageView.sizeThatFits(CGSize(width: 60,
-                                                                 height: UIView.beamDefaultNavBarHeight - 7))
+     //   let beamLogoSize = beamLogoImageView.sizeThatFits(CGSize(width: 60,
+    //                                                             height: UIView.beamDefaultNavBarHeight - 7))
 
         let metrics: [String: Any] = ["navHeight": UIView.beamDefaultNavBarHeight,
                                       "descHeight": UIView.beamDefaultNavBarHeight + 50,

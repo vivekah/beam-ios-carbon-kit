@@ -6,7 +6,7 @@
 //  Copyright © 2019 Beam Impact. All rights reserved.
 //
 
-import Alamofire
+//import Alamofire
 import UIKit
 
 @objc public protocol AFImageCacheProtocol: class{

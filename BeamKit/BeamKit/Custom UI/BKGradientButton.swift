@@ -157,7 +157,7 @@ class BKNavBarView: UIView {
     }
     
     func setupConstraints() {
-        let widthOfChain = UIScreen.main.applicationFrame.width / 2 - 35
+        let widthOfChain = UIScreen.main.bounds.width / 2 - 35
         if #available(iOS 9.0, *) {
             widthConstraint = NSLayoutConstraint.constrainWidth(self.chainLogoImageView, by: widthOfChain)
         }
@@ -196,7 +196,7 @@ class BKNavBarView: UIView {
     }
     
     func update(with url: URL) {
-        let widthOfChain = UIScreen.main.applicationFrame.width / 2 - 35
+        let widthOfChain = UIScreen.main.bounds.width / 2 - 35
         let heightOfChain = UIView.beamDefaultNavBarHeight - 7
         chainLogoImageView.bkSetImageWithUrl(url, priority: .veryHigh) { image in
             guard let image = image else { return }

@@ -8,7 +8,7 @@
 
 import UIKit
 
-public protocol BKTransactionViewDelegate: class {
+public protocol BKChooseDelegate: class {
     var baseViewController: UIViewController { get }
     func didToggleMatch(on: Bool, amount: CGFloat)
 }
@@ -21,8 +21,8 @@ public enum BKBackgroundType {
     case leftImage
 }
 
-public class BKTransactionView: UIView {
-    public weak var delegate: BKTransactionViewDelegate?
+public class BKChooseButton: UIView {
+    public weak var delegate: BKChooseDelegate?
     
     var flow: BKChooseFlow {
         return BeamKitContext.shared.chooseFlow
@@ -98,7 +98,7 @@ public class BKTransactionView: UIView {
     }()
     let match: BKMatchTransactionView = .init(frame: .zero)
     
-    public init?(type: BKBackgroundType) {
+    public init?(type: BKBackgroundType = .leftImage) {
         guard let _ = BeamKitContext.shared.chooseFlow.context.currentTransaction else { return nil }
         self.backgroundView = BKBackgroundView(with: type)
         let rect = CGRect(x: 0, y: 0, width: 300, height: 135)
@@ -256,7 +256,7 @@ public class BKTransactionView: UIView {
                 }
             }
         }
-        labelView.text = "\(donationString) is going to \(nonprofit.name), funding \(nonprofit.impactDescription)"
+        labelView.text = "Your carbon offset is funding \(nonprofit.impactDescription)"
     }
     
     func setupEmptyState(for transaction: BKTransaction?) {
@@ -273,7 +273,7 @@ public class BKTransactionView: UIView {
     }
 }
 
-extension BKTransactionView {
+extension BKChooseButton {
     @objc
     func didTapChange() {
         guard let delegate = delegate else {
@@ -299,7 +299,7 @@ extension BKTransactionView {
     }
 }
 
-extension BKTransactionView: BKMatchTransactionViewDelegate {
+extension BKChooseButton: BKMatchTransactionViewDelegate {
     
     func didToggleMatch(on: Bool) {
         guard let transaction = flow.context.currentTransaction else { return }

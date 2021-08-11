@@ -107,7 +107,7 @@ internal class NonprofitView: UIButton {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        beamGradientLayer.frame = infoView.bounds
+       // beamGradientLayer.frame = infoView.bounds
     }
     
     func configure(with nonprofit: BKNonprofit?) {
@@ -134,6 +134,7 @@ internal class NonprofitView: UIButton {
         
         infoView.layer.addSublayer(beamGradientLayer)
         infoView.addSubview(infoTextLabelView.usingConstraints())
+        infoView.isHidden = true
         addSubview(backgroundImage.usingConstraints())
         backgroundImage.addSubview(tintView.usingConstraints())
         backgroundImage.addSubview(nameLabel.usingConstraints())
@@ -152,7 +153,7 @@ internal class NonprofitView: UIButton {
         swipe.delegate = self
         addGestureRecognizer(swipe)
         arrowButton.addTarget(self, action: #selector(didTapArrow), for: .touchUpInside)
-        
+        arrowButton.isHidden = true
         setupConstraints()
     }
     
