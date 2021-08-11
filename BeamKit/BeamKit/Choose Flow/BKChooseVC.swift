@@ -370,9 +370,6 @@ class BKVisitHeaderView: UIView {
                             "logo": logoView,
                             "nav": navBarView]
         
-     //   let beamLogoSize = beamLogoImageView.sizeThatFits(CGSize(width: 60,
-    //                                                             height: UIView.beamDefaultNavBarHeight - 7))
-
         let metrics: [String: Any] = ["navHeight": UIView.beamDefaultNavBarHeight,
                                       "descHeight": UIView.beamDefaultNavBarHeight + 50,
                                       "top": insets.top,

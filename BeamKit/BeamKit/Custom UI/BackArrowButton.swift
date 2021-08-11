@@ -13,7 +13,6 @@ class BKBackButton: UIButton {
     static var arrowImage: UIImage? = {
         let bundle = BeamKitContext.shared.bundle
         var image = UIImage(named: "down-arrow", in: bundle, compatibleWith: nil)
-      //  image = image?.maskWithColor(color: .beamGray3)
         return image
     }()
     

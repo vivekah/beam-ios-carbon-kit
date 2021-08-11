@@ -82,6 +82,19 @@ internal class NonprofitView: UIButton {
         return label
     }()
     
+    
+    let percentageTextLabel: UILabel = {
+        let label = UILabel(frame: .zero)
+        label.font = UIFont.beamRegular(size: 12)
+        label.textAlignment = .left
+        label.numberOfLines = 0
+        label.backgroundColor = .clear
+        label.adjustsFontSizeToFitWidth = true
+        label.minimumScaleFactor = 0.6
+        label.textColor = .white
+        return label
+    }()
+    
     let causeLabel: UILabel = {
         let label = UILabel(frame: .zero)
         label.font = UIDevice.current.is5or4Phone ? UIFont.beamRegular(size: 11.0) : UIFont.beamRegular(size: 12.0)
@@ -123,15 +136,17 @@ internal class NonprofitView: UIButton {
         
         progressBar.denominator = nonprofit.targetDonations
         progressBar.numerator = nonprofit.totalDonations.truncatingRemainder(dividingBy: nonprofit.targetDonations)
+        let percent: Int = max(Int((CGFloat(progressBar.numerator) / CGFloat(progressBar.denominator)) * 100), 1)
         
+        percentageTextLabel.text = "\(percent)%"
         infoView.text = nonprofit.missionDescription
         let desc = nonprofit.impactDescription
-        infoTextLabelView.text = "Offset your carbon with \(desc)"
+        infoTextLabelView.text = "Fund \(desc)"
         causeLabel.text = nonprofit.cause?.uppercased()
     }
     
     func setup() {
-        tintView.alpha = 0.25
+        tintView.alpha = 0.4
         
         infoView.layer.addSublayer(beamGradientLayer)
         //infoView.addSubview(infoTextLabelView.usingConstraints())
@@ -142,6 +157,7 @@ internal class NonprofitView: UIButton {
         backgroundImage.addSubview(progressBar.usingConstraints())
         backgroundImage.addSubview(causeLabel.usingConstraints())
         backgroundImage.addSubview(infoTextLabelView.usingConstraints())
+        backgroundImage.addSubview(percentageTextLabel.usingConstraints())
         addSubview(infoView.usingConstraints())
         addSubview(arrowButton.usingConstraints())
         
@@ -167,10 +183,11 @@ internal class NonprofitView: UIButton {
                             "info": infoView,
                             "desc": infoTextLabelView,
                             "cause": causeLabel,
+                            "perc": percentageTextLabel,
                             "select": selectViewTapTarget,
                             "learn": learnMoreViewTapTarget]
         let formats: [String] = ["H:|-30-[name]-55-|",
-                                 "H:|-30-[bar]",
+                                 "H:|-30-[bar]-[perc]-10-|",
                                  "H:[arrow(30)]-20-|",
                                  "H:|[select][learn(50)]|",
                                  "V:|[select]|",
@@ -189,13 +206,7 @@ internal class NonprofitView: UIButton {
             NSLayoutConstraint.constraints(withFormats: formats, views: views)
         
         constraints += [NSLayoutConstraint.centerOnY(arrowButton, in: self),
-                        NSLayoutConstraint(item: progressBar,
-                                           attribute: .trailing,
-                                           relatedBy: .equal,
-                                           toItem: arrowButton,
-                                           attribute: .leading,
-                                           multiplier: 1.0,
-                                           constant: 0.0),
+                        NSLayoutConstraint.centerOnY(percentageTextLabel, in: progressBar),
                         NSLayoutConstraint(item: infoView,
                                            attribute: .width,
                                            relatedBy: .equal,

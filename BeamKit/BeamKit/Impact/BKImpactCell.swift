@@ -40,6 +40,19 @@ class BKImpactCell: UITableViewCell {
         label.text = "funded towards total goal"
         return label
     }()
+    
+    let percentageTextLabel: UILabel = {
+        let label = UILabel(frame: .zero)
+        label.font = UIFont.beamRegular(size: 12)
+        label.textAlignment = .left
+        label.numberOfLines = 0
+        label.backgroundColor = .clear
+        label.adjustsFontSizeToFitWidth = true
+        label.minimumScaleFactor = 0.6
+        label.textColor = .gray
+        return label
+    }()
+    
     // progress bar
     private let progressBar: GradientProgressBar = .init()
     let separatorLine: UIView = .init(with: .beamGray1)
@@ -61,7 +74,7 @@ class BKImpactCell: UITableViewCell {
         addSubview(descriptionLabel.usingConstraints())
         addSubview(progressBar.usingConstraints())
         addSubview(separatorLine.usingConstraints())
-        progressBar.isHidden = true
+        addSubview(percentageTextLabel.usingConstraints())
         percentageView.isHidden = true
         backgroundColor = .white
         titleImageView.clipsToBounds = true
@@ -87,22 +100,22 @@ class BKImpactCell: UITableViewCell {
                             "cause": causeLabel,
                             "sep": separatorLine,
                             "desc": descriptionLabel,
-                            "perc": percentageView,
+                            "perc": percentageTextLabel,
                             "bar": progressBar]
         
         let formats: [String] = ["H:|[title]|",
-                                 "H:|-30-[bar]-30-|",
+                                 "H:|-30-[bar]-[perc]-30-|",
                                  "H:|-30-[sep]-30-|",
                                  "H:|-30-[cause]-30-|",
                                  "H:|-30-[desc]-30-|",
-                                 "V:|[title(180)]-14-[perc]-5-[bar(8)]-16-[sep(1)]-16-|",
-                                 "V:[title]->=3-[desc]-[bar]",
+                                 "V:|[title(180)]-[desc]-[bar(8)]-16-[sep(1)]-16-|",
                                  "V:|-8-[cause]"]
         var constraints: Constraints = NSLayoutConstraint.constraints(withFormats: formats, views: views)
         percWidth.constant = percentageView.intrinsicContentSize.width
         
         constraints += [NSLayoutConstraint.centerOnY(descriptionLabel, in: percentageView),
                         percWidth,
+                        NSLayoutConstraint.centerOnY(percentageTextLabel, in: progressBar),
                         NSLayoutConstraint.centerOnX(causeLabel, in: self)]
         
         NSLayoutConstraint.activate(constraints)
@@ -110,7 +123,7 @@ class BKImpactCell: UITableViewCell {
     
     func configure(with impact: BKNonprofit) {
         let desc = impact.impactDescription
-        descriptionLabel.text = "Your carbon was offset by \(desc)"
+        descriptionLabel.text = "Fund \(desc)"
         titleImageView.title = impact.name
         setupProgress(with: impact)
         causeLabel.text = impact.cause?.uppercased()
@@ -119,6 +132,7 @@ class BKImpactCell: UITableViewCell {
             let url = URL(string: image) {
             titleImageView.setImageWithUrl(url)
         }
+
         progressBar.setNeedsLayout()
         progressBar.layoutIfNeeded()
         setNeedsLayout()
@@ -134,7 +148,7 @@ class BKImpactCell: UITableViewCell {
         progressBar.denominator = target
 
         let percent: Int = Int((CGFloat(progressBar.numerator) / CGFloat(progressBar.denominator)) * 100)
-        percentageView.text = "\(percent)%"
+        percentageTextLabel.text = "\(percent)%"
     }
     
     override var intrinsicContentSize: CGSize {

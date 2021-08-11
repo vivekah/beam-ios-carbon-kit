@@ -57,8 +57,8 @@ class BKCommunityImpactCell: UITableViewCell {
     
     let progressBar: GradientProgressBar = .init(tintType: .color(.beamGray2))
 
-    let percentageView: GradientTextView = .init(with: [UIColor.beamGradientLightYellow.cgColor,
-                                                        UIColor.beamGradientLightOrange.cgColor],
+    let percentageView: GradientTextView = .init(with: [UIColor.white.cgColor,
+                                                        UIColor.white.cgColor],
                                                  text: "%",
                                                  font: UIFont.beamBold(size: 28))
     
@@ -111,6 +111,7 @@ class BKCommunityImpactCell: UITableViewCell {
         baseView.addSubview(progressBar.usingConstraints())
         baseView.addSubview(percentageView.usingConstraints())
         gradient.masksToBounds = true
+        gradient.isHidden = true
         tintView.clipsToBounds = true
         baseView.clipsToBounds = true
         setupConstraints()
@@ -158,7 +159,7 @@ class BKCommunityImpactCell: UITableViewCell {
     func configure(with impact: BKNonprofit) {
         titleLabel.text = impact.name
         let desc = impact.impactDescription
-        goalLabel.text = "Offset by \(desc)"
+        goalLabel.text = "Fund \(desc)"
         causeLabel.text = impact.cause?.uppercased()
         
         setupProgress(with: impact)

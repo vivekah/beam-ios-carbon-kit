@@ -256,7 +256,7 @@ public class BKChooseButton: UIView {
                 }
             }
         }
-        labelView.text = "Your carbon offset is funding \(nonprofit.impactDescription)"
+        labelView.text = "Your carbon-neutral order will fund \(nonprofit.impactDescription)"
     }
     
     func setupEmptyState(for transaction: BKTransaction?) {

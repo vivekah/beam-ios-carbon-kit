@@ -63,7 +63,7 @@ class BKChooseNonprofitContext: NSObject {
         }
         let amt = transaction.amount
         let didMatch = transaction.canMatch ? transaction.userDidMatch : false
-        //TODO position
+
         NonprofitAPI.selectNonprofit(id: nonprofit.id,
                                      store: store.id,
                                      cart: amt,

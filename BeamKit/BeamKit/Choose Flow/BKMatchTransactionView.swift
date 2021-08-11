@@ -176,9 +176,7 @@ class BKCheckButton: UIView {
     func setupConstraints() {
         let views: [String: UIView] = ["circle": circleView,
                                        "check": check]
-        let formats: [String] = ["V:|-6-[circle]-8-|",
-//                                 "H:|[check]|",
-//                                 "V:|[check]|"
+        let formats: [String] = ["V:|-6-[circle]-8-|"
         ]
         
         var constraints: [NSLayoutConstraint] =
