@@ -73,7 +73,7 @@ internal class NonprofitView: UIButton {
     let infoTextLabelView: UILabel = {
         let label = UILabel(frame: .zero)
         label.font = UIFont.beamRegular(size: 16)
-        label.textAlignment = .center
+        label.textAlignment = .left
         label.numberOfLines = 0
         label.backgroundColor = .clear
         label.adjustsFontSizeToFitWidth = true
@@ -125,7 +125,8 @@ internal class NonprofitView: UIButton {
         progressBar.numerator = nonprofit.totalDonations.truncatingRemainder(dividingBy: nonprofit.targetDonations)
         
         infoView.text = nonprofit.missionDescription
-        infoTextLabelView.text = nonprofit.missionDescription
+        let desc = nonprofit.impactDescription
+        infoTextLabelView.text = "Offset your carbon with \(desc)"
         causeLabel.text = nonprofit.cause?.uppercased()
     }
     
@@ -133,14 +134,14 @@ internal class NonprofitView: UIButton {
         tintView.alpha = 0.25
         
         infoView.layer.addSublayer(beamGradientLayer)
-        infoView.addSubview(infoTextLabelView.usingConstraints())
+        //infoView.addSubview(infoTextLabelView.usingConstraints())
         infoView.isHidden = true
         addSubview(backgroundImage.usingConstraints())
         backgroundImage.addSubview(tintView.usingConstraints())
         backgroundImage.addSubview(nameLabel.usingConstraints())
         backgroundImage.addSubview(progressBar.usingConstraints())
         backgroundImage.addSubview(causeLabel.usingConstraints())
-        
+        backgroundImage.addSubview(infoTextLabelView.usingConstraints())
         addSubview(infoView.usingConstraints())
         addSubview(arrowButton.usingConstraints())
         
@@ -180,11 +181,10 @@ internal class NonprofitView: UIButton {
                                  "V:|[back]|",
                                  "V:|[info]|",
                                  "H:|[back]|",
-                                 "H:|-20-[desc]-50-|",
-                                 "V:|-20-[desc]-15-|",
+                                 "H:|-30-[desc]-30-|",
                                  "H:[tint][info]",
                                  "H:|-30-[cause]->=10-|",
-                                 "V:|-8-[cause]->=10-[name]-10-[bar(9)]-20-|"]
+                                 "V:|-8-[cause]->=8-[name]-[desc]-8-[bar(9)]-15-|"]
         var constraints: Constraints =
             NSLayoutConstraint.constraints(withFormats: formats, views: views)
         

@@ -25,7 +25,7 @@ class BKCommunityImpactVC: UIViewController {
         label.adjustsFontSizeToFitWidth = true
         label.minimumScaleFactor = 0.6
         label.textColor = .beamGray3
-        label.text = "See the community working together to impact the issues we care about."
+        label.text = "See the impact our community is making together with every carbon-neutral order."
         return label
     }()
     
@@ -104,9 +104,6 @@ extension BKCommunityImpactVC {
     func impactDidLoad() {
         DispatchQueue.main.async {
             self.impactTableView.reloadData()
-            guard let context = self.context,
-                let name = context.communityImpact?.chainName else { return }
-            self.descriptionLabel.text = "See The \(name) Community working together to impact the issues we care about."
         }
     }
 }
