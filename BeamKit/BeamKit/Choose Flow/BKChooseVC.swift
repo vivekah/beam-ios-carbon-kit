@@ -16,12 +16,13 @@ public protocol BKChooseViewDelegate: class {
 
 public class BKChooseVC: UIViewController {
 
-    let transaction: BKTransaction
+    var transaction: BKTransaction? = nil
+    var storeID: String? = nil
     var flow: BKChooseFlow {
         return BeamKitContext.shared.chooseFlow
     }
 
-    let header: BKVisitHeaderView
+    var header: BKVisitHeaderView? = nil
     public weak var delegate: BKChooseViewDelegate?
 
     let first: NonprofitView = .init(frame: .zero)
@@ -31,15 +32,22 @@ public class BKChooseVC: UIViewController {
     var showFourth: Bool = true
 
     
-    init(with transaction: BKTransaction) {
-        self.transaction = transaction
-        header = BKVisitHeaderView(with: transaction)
+    init(with transaction: BKTransaction?, storeID: String? = nil) {
+        if let t = transaction {
+            self.transaction = t
+            header = BKVisitHeaderView(with: t)
+        }
+        self.storeID = storeID
         super.init(nibName: nil, bundle: nil)
     }
     
     public class func new() -> BKChooseVC? {
         guard let trans = BeamKitContext.shared.chooseFlow.context.currentTransaction else { return nil }
         return BKChooseVC.init(with: trans)
+    }
+    
+    public class func new(at storeID: String) -> BKChooseVC {
+        return BKChooseVC.init(with: nil, storeID: storeID)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -53,6 +61,11 @@ public class BKChooseVC: UIViewController {
     
     func setup() {
         view.backgroundColor = .white
+        guard let _ = transaction,
+              let header = header else {
+            setupProxy()
+            return
+        }
         view.addSubview(header.usingConstraints())
         view.addSubview(first.usingConstraints())
         view.addSubview(second.usingConstraints())
@@ -64,8 +77,22 @@ public class BKChooseVC: UIViewController {
         setupConstraints()
     }
     
+    func setupProxy() {
+        guard let storeID = storeID else { return }
+        BeamKitContext.shared.chooseFlow.context.beginProxyTransaction(at: storeID) { trans, error in
+            DispatchQueue.main.async {
+                self.transaction = trans
+                guard let trans = trans else { return }
+                self.header = BKVisitHeaderView(with: trans)
+                self.setup()
+
+            }
+        }
+
+    }
+    
     func configureNonprofits() {
-        guard let nonprofits = transaction.storeNon.nonprofits else { return }
+        guard let nonprofits = transaction?.storeNon.nonprofits else { return }
         let firstNon = nonprofits.count > 0 ? nonprofits[0] : nil
         first.configure(with: firstNon)
         let secondNon = nonprofits.count > 1 ? nonprofits[1] : nil
@@ -78,6 +105,7 @@ public class BKChooseVC: UIViewController {
     }
     
     func setupConstraints() {
+        guard let header = header else { return }
         let views: Views = ["header": header,
                             "first": first,
                             "second": second,
@@ -140,7 +168,7 @@ public class BKChooseVC: UIViewController {
 extension BKChooseVC {
     
     func addTargets() {
-         header.backButton.addTarget(self,
+         header?.backButton.addTarget(self,
                                     action: #selector(didTapBackButton),
                                     for: .touchUpInside)
         first.delegate = self
@@ -158,7 +186,8 @@ extension BKChooseVC {
 extension BKChooseVC: NonprofitViewDelegate {
     
     func didSelect(_ nonprofit: BKNonprofit?) {
-        guard let nonprofit = nonprofit else {
+        guard let nonprofit = nonprofit,
+              let transaction = transaction else {
             flow.navigateBack(from: self)
             return
         }

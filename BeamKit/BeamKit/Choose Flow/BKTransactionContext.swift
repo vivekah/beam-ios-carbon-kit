@@ -24,6 +24,14 @@ class BKChooseNonprofitContext: NSObject {
         _beginTransaction(at: storeID, for: spend, forceMatchView: forceMatchView, completion)
     }
     
+    func beginProxyTransaction(at storeID: String,
+                               _ completion: ((BKTransaction?, BeamError) -> Void)? = nil) {
+
+        _beginTransaction(at: storeID, for: 0.01, forceMatchView: false) { (_, error) in
+            completion?(self.currentTransaction, error)
+        }
+    }
+    
     func _beginTransaction(at storeID: String,
                           for spend: CGFloat,
                           forceMatchView: Bool = false,
